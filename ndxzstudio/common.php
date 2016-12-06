@@ -298,7 +298,7 @@ function show_error($message='')
 	
 	$message = $lang->word($message);
 	
-	$error =& load_class('error', TRUE, 'lib');
+	$error =& load_class('ixerror', TRUE, 'lib');
 	header('Status: 503 Service Unavailable'); // change to right error note
 	echo $error->show_error($message);
 	exit;
@@ -350,7 +350,7 @@ function show_login($message='')
 		</form>";
 	}
 	
-	$error =& load_class('error', TRUE, 'lib');
+	$error =& load_class('ixerror', TRUE, 'lib');
 	echo $error->show_login($login);
 	exit;
 }

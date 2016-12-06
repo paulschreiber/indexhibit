@@ -6,7 +6,7 @@
 * @version 1.0
 * @author Vaska 
 */
-class IxError
+class IndexhibitError
 {
 	/**
 	* Returns error page
