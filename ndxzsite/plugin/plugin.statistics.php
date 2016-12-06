@@ -26,27 +26,31 @@ End
 
 class Statistics
 {
-	var $system;
+    var $system;
 
-	function __construct()
-	{
-		$OBJ =& get_instance();
-		$this->system = ($OBJ->vars->exhibit['cms'] == true) ? true : false;
-	}
+    function __construct()
+    {
+        $OBJ =& get_instance();
+        $this->system = ($OBJ->vars->exhibit['cms'] == true) ? true : false;
+    }
 
-	function start_stats()
-	{
-		if ($this->system == true) return;
+    function start_stats()
+    {
+        if ($this->system == true) {
+            return;
+        }
 
-		$OBJ =& get_instance();
-		$OBJ->page->add_jquery('statistics.js', 51);
-		$OBJ->page->exhibit['dyn_js'][] = "var baseurl = '" . BASEURL . "';";
-	}
-	
-	function do_stats()
-	{
-		if ($this->system == true) return;
+        $OBJ =& get_instance();
+        $OBJ->page->add_jquery('statistics.js', 51);
+        $OBJ->page->exhibit['dyn_js'][] = "var baseurl = '" . BASEURL . "';";
+    }
+    
+    function do_stats()
+    {
+        if ($this->system == true) {
+            return;
+        }
 
-		return "<script type='text/javascript'>do_statistics();</script>";
-	}
+        return "<script type='text/javascript'>do_statistics();</script>";
+    }
 }

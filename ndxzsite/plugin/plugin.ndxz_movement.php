@@ -15,13 +15,13 @@ End
 
 class Movement
 {
-	function go()
-	{
-		$OBJ =& get_instance();
+    function go()
+    {
+        $OBJ =& get_instance();
 
-		$OBJ->page->add_jquery('movement.js', 35);
-		$OBJ->page->add_jquery_onready("move_up(); $('#menu a').bind('click', function(event) { do_click(); });", 10);
-		
-		return null;
-	}
+        $OBJ->page->add_jquery('movement.js', 35);
+        $OBJ->page->add_jquery_onready("move_up(); $('#menu a').bind('click', function(event) { do_click(); });", 10);
+        
+        return null;
+    }
 }

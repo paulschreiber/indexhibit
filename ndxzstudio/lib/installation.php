@@ -1,4 +1,6 @@
-<?php if (!defined('SITE')) exit('No direct script access allowed');
+<?php if (!defined('SITE')) {
+    exit('No direct script access allowed');
+}
 
 // we follow the directions of the extending files
 // but what if we are skipping many version?
@@ -7,83 +9,82 @@
 
 class Installation
 {
-	public $indexhibit_version;
-	public $php_version;
-	public $mysql_version;
-	public $template;
-	public $ouptput;
+    public $indexhibit_version;
+    public $php_version;
+    public $mysql_version;
+    public $template;
+    public $ouptput;
 
-	public function __construct()
-	{
-		require_once '../ndxzsite/config/options.php';
-		require_once 'common.php';
-		require_once './helper/entrance.php';
-		require_once './helper/html.php';
-		require_once './helper/time.php';
-		require_once './lang/index.php';
+    public function __construct()
+    {
+        require_once '../ndxzsite/config/options.php';
+        require_once 'common.php';
+        require_once './helper/entrance.php';
+        require_once './helper/html.php';
+        require_once './helper/time.php';
+        require_once './lang/index.php';
 
-		// the basic things
-		$this->mysql_ver();
-	}
+        // the basic things
+        $this->mysql_ver();
+    }
 
-	public function test()
-	{
-		$this->output = 'Yes!';
-	}
+    public function test()
+    {
+        $this->output = 'Yes!';
+    }
 
-	// common parts
-	public function load_common()
-	{
-		require_once 'defaults.php';
-		require_once 'common.php';
-		require_once './helper/entrance.php';
-		require_once './helper/html.php';
-		require_once './helper/time.php';
-		require_once './lang/index.php';
+    // common parts
+    public function load_common()
+    {
+        require_once 'defaults.php';
+        require_once 'common.php';
+        require_once './helper/entrance.php';
+        require_once './helper/html.php';
+        require_once './helper/time.php';
+        require_once './lang/index.php';
 
-		$page = getURI('page', 0, 'alnum', 1);
+        $page = getURI('page', 0, 'alnum', 1);
 
-		// set cookie
-		if (isset($_POST['submitLang']) && ($_POST['user_lang'] != ''))
-		{
-			setcookie('install', $_POST['user_lang'], time()+3600);
+        // set cookie
+        if (isset($_POST['submitLang']) && ($_POST['user_lang'] != '')) {
+            setcookie('install', $_POST['user_lang'], time()+3600);
 
-			// couldn't i simply make a template and send the info?
-			header("location:install.php?page=1");
-		}
+            // couldn't i simply make a template and send the info?
+            header("location:install.php?page=1");
+        }
 
-		// look for the cookie here
-		$picked = (isset($_COOKIE['install'])) ? $_COOKIE['install'] : 'en-us';
+        // look for the cookie here
+        $picked = (isset($_COOKIE['install'])) ? $_COOKIE['install'] : 'en-us';
 
-		$lang = new Lang;
-		$lang->setlang($picked);
-	}
+        $lang = new Lang;
+        $lang->setlang($picked);
+    }
 
-	public function new_installation()
-	{
-		// read the contents of 'new_install.php'
-	}
+    public function new_installation()
+    {
+        // read the contents of 'new_install.php'
+    }
 
-	public function php_version()
-	{
+    public function php_version()
+    {
+    }
 
-	}
+    public function mysql_ver()
+    {
+        $ver = mysqli_get_client_info();
+        $num = explode('.', $ver);
+        $this->mysql_version = $num[0];
+    }
 
-	public function mysql_ver()
-	{
-		$ver = mysqli_get_client_info();
-		$num = explode('.', $ver);
-		$this->mysql_version = $num[0];
-	}
+    public function upgrade()
+    {
+        echo 'what?';
+        exit;
+    }
 
-	public function upgrade()
-	{
-		echo 'what?'; exit;
-	}
-
-	public function template()
-	{
-		return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+    public function template()
+    {
+        return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
 \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">
 <head>
@@ -120,5 +121,5 @@ code { margin: 18px 0; font-size: 12px; }
 </div>
 </body>
 </html>";
-	}
+    }
 }

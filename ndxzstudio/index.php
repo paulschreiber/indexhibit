@@ -10,7 +10,9 @@
 ob_start('ob_gzhandler');
 
 // the basics
-if (file_exists('../ndxzsite/config/config.php')) require_once '../ndxzsite/config/config.php';
+if (file_exists('../ndxzsite/config/config.php')) {
+    require_once '../ndxzsite/config/config.php';
+}
 
 require_once '../ndxzsite/config/options.php';
 require_once 'defaults.php';
@@ -21,13 +23,13 @@ $default['timer'] = microtime_float();
 
 // make sure we have our connection array
 shutDownCheck();
-	
+    
 // preloading helpers
 load_helpers(array('html', 'entrance', 'time', 'server'));
 
 // general tools for loading things
-$OBJ =& load_class('core', FALSE, 'lib');	
-$OBJ =& load_class('router', TRUE, 'lib');
+$OBJ =& load_class('core', false, 'lib');
+$OBJ =& load_class('router', true, 'lib');
 
 // we need to get our abstracts
 $OBJ->abstracts->get_system_abstracts();
@@ -54,7 +56,9 @@ $OBJ->load_collector($OBJ->go['a'], $OBJ->go['oid']);
 
 // we load this before anything happens so we can override
 // you can only have one at a time...
-if ($OBJ->hook->registered_hook('update_module')) $OBJ->extend_module($OBJ->hook->action_table['update_module']);
+if ($OBJ->hook->registered_hook('update_module')) {
+    $OBJ->extend_module($OBJ->hook->action_table['update_module']);
+}
 
 // pretunnel hooks
 
@@ -62,6 +66,6 @@ if ($OBJ->hook->registered_hook('update_module')) $OBJ->extend_module($OBJ->hook
 $OBJ->tunnel($OBJ->$go['a'], $OBJ->go['a'], $OBJ->go['q']);
 
 // output
-header('Content-Type: text/html; charset=utf-8'); 
+header('Content-Type: text/html; charset=utf-8');
 $OBJ->template->output('index');
 exit;

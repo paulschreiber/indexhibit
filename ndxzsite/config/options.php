@@ -1,4 +1,6 @@
-<?php if (!defined('SITE')) exit('No direct script access allowed');
+<?php if (!defined('SITE')) {
+    exit('No direct script access allowed');
+}
 
 // mod_rewrite is being used?
 // in case the server does not have mod_rewrite
@@ -26,14 +28,14 @@ define('GIMGS', BASEFILES . '/gimgs');
 $default['tinymce'] = false; // not yet
 
 $default['parsing'] = false;
-	
+    
 // cache time
 $default['caching'] = false;
 $default['cache_time'] = 15; // minutes
 
 // first year
 $default['first_year'] = 2004;
-	
+    
 // define the default encoding
 $default['encoding'] = 'UTF-8';
 
