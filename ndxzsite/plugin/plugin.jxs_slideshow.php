@@ -9,7 +9,7 @@ class Jxs_slideshow
 		exit;
 	}
 	
-	function Jxs_slideshow()
+	function __construct()
 	{
 
 		$OBJ =& get_instance();

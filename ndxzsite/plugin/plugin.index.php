@@ -27,7 +27,7 @@ class Index
 	var $counter = 0;
 	var $current;
 
-	function Index()
+	function __construct()
 	{
 		$OBJ =& get_instance();
 		global $default;

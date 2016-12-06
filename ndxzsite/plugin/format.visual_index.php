@@ -126,7 +126,7 @@ slide: function(event, ui) { $('label#text_box_height_value span').html(ui.value
 		return ($var == $check) ? " selected='selected'" : '';
 	}	
 
-	function Exhibit()
+	function __construct()
 	{
 		$OBJ =& get_instance();
 

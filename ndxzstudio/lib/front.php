@@ -22,7 +22,7 @@ class Front
 	* @param void
 	* @return mixed
 	*/
-	public function Front()
+	public function __construct()
 	{
 		global $rs;
 		

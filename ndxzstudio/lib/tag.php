@@ -18,7 +18,7 @@ class Tag
 	public $id;
 	public $tags_enabled = false;
 	
-	public function Tag()
+	public function __construct()
 	{
 		$OBJ =& get_instance();
 		$OBJ->template->add_js('tags.js');

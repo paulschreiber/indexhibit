@@ -13,7 +13,7 @@ class Installation
 	public $template;
 	public $ouptput;
 
-	public function Installation()
+	public function __construct()
 	{
 		require_once '../ndxzsite/config/options.php';
 		require_once 'common.php';

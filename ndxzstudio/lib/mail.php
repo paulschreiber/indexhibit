@@ -19,7 +19,7 @@ class Mail
 	public $wordwrap = 72;
     public $errors = array();
 
-   	public function Mail() 
+   	public function __construct() 
 	{ 
         $this->emailboundary = uniqid(time()); 
     }

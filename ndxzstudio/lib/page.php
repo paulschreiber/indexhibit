@@ -33,7 +33,7 @@ class Page
 	* @param void
 	* @return mixed
 	*/
-	public function Page()
+	public function __construct()
 	{	
 		$OBJ =& get_instance();
 

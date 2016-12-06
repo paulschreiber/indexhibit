@@ -17,7 +17,7 @@ class Cache
 	public $defaults = array();
 	public $ext;
 	
-	public function Cache()
+	public function __construct()
 	{
 		global $default;
 

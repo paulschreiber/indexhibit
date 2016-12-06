@@ -19,7 +19,7 @@ class Plugins
 	* @param void
 	* @return array
 	*/
-	public function Plugins()
+	public function __construct()
 	{
 		$this->plugin_path = DIRNAME . '/ndxzsite/plugin/';
 	}

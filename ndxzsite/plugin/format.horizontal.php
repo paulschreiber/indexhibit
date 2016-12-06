@@ -106,7 +106,7 @@ slide: function(event, ui) { $('label#padding_left_value span').html(ui.value) }
 		return ($var == $check) ? " selected='selected'" : '';
 	}
 
-	function Exhibit()
+	function __constructor()
 	{
 		$OBJ =& get_instance();
 

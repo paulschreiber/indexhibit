@@ -17,7 +17,7 @@ class Statistics
 	* @param void
 	* @return null
 	*/
-	public function Statistics()
+	public function __construct()
 	{
 		$this->stat_insertHit();
 	}

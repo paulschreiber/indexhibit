@@ -51,7 +51,7 @@ class Template
 	* @param void
 	* @return null
 	*/
-	public function Template()
+	public function __construct()
 	{
 		// default settings
 		$this->title = 'Indexhibit™';

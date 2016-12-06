@@ -27,7 +27,7 @@ class Core
 	* @param void
 	* @return array
 	*/
-	public function Core()
+	public function __construct()
 	{
 		global $default;
 		

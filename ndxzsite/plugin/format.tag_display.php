@@ -127,7 +127,7 @@ class Exhibit
 		}
 	
 
-	function Exhibit()
+	function __construct()
 	{
 		$OBJ =& get_instance(); 
 

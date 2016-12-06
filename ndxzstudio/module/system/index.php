@@ -7,7 +7,7 @@ class System extends Router
 	public $tabs		= array();
 	public $reset		= false;
 
-	public function System()
+	public function __construct()
 	{
 		parent::Router();
 

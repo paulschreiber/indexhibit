@@ -16,7 +16,7 @@ class Exhibits extends Router
 	public $enable_linker = true;
 	public $enable_bg = false;
 	
-	public function Exhibits()
+	public function __construct()
 	{
 		parent::Router();
 		

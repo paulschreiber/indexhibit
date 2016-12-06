@@ -52,7 +52,7 @@ class Media
 	* @param void
 	* @return mixed
 	*/
-	public function Media()
+	public function __construct()
 	{
 		global $default;
 		$this->uploads = $default;

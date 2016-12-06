@@ -20,7 +20,7 @@ class Router extends Core
 	* @param void
 	* @return array
 	*/
-	public function Router()
+	public function __construct()
 	{
 		// don't access this space directly
 		// work above or below it

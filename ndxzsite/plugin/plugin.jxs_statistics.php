@@ -20,7 +20,7 @@ class Jxs_statistics
 	* @param void
 	* @return null
 	*/
-	function Jxs_statistics()
+	function __construct()
 	{
 		$this->uri = $_POST['url'];
 		$this->refer = ($_POST['referrer'] == 'none') ? '' : $_POST['referrer'];
