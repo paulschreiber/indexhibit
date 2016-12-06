@@ -71,7 +71,7 @@ class Installation
 	
 	public function mysql_ver()
 	{
-		$ver = mysql_get_client_info();
+		$ver = mysqli_get_client_info();
 		$num = explode('.', $ver);
 		$this->mysql_version = $num[0];
 	}

@@ -2964,8 +2964,8 @@ var baseurl = '" . BASEURL . "';";
 					$p['pl_file'] = $key;
 					
 					// we really need this?
-					$p = array_map('mysql_real_escape_string', $p);
 					
+					$p = array_map('mysqli_real_escape_string', $p);
 					$last = $this->db->insertArray(PX.'plugins', $p);
 					
 					// if primary has options
@@ -3055,8 +3055,8 @@ var baseurl = '" . BASEURL . "';";
 				$p['pl_options_build'] = $plugin['options'];
 					
 				// we really need this?
-				$p = array_map('mysql_real_escape_string', $p);
 					
+				$p = array_map('mysqli_real_escape_string', $p);
 				$last = $this->db->insertArray(PX.'plugins', $p);
 			}
 		}
@@ -3124,8 +3124,8 @@ var baseurl = '" . BASEURL . "';";
 				$p['pl_options_build'] = $plugin['options'];
 					
 				// look into why this was put here...
-				$p = array_map('mysql_real_escape_string', $p);
 					
+				$p = array_map('mysqli_real_escape_string', $p);
 				$last = $this->db->insertArray(PX.'plugins', $p);
 				}
 			}

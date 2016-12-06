@@ -277,8 +277,8 @@ class Installation
 	
 	function set_charset_collation()
 	{
-		$version = preg_replace('/[^0-9.].*/', '', mysql_get_server_info($this->db->link));
 		
+		$version = preg_replace('/[^0-9.].*/', '', mysqli_get_server_info($this->db->link));
 		if (version_compare($version, '4.1', '>='))
 		{
 			$this->charset_collate = 'DEFAULT CHARACTER SET ' . $this->charset;
@@ -623,13 +623,9 @@ class Installation
 			$str = stripslashes($str);
 		}
 
-		if (function_exists('mysql_real_escape_string'))
+		if (function_exists('mysqli_real_escape_string'))
 		{
-			return mysql_real_escape_string($str, $this->link);
-		}
-		elseif (function_exists('mysql_escape_string'))
-		{
-			return mysql_escape_string($str);
+			return mysqli_real_escape_string($str, $this->link);
 		}
 		else
 		{
@@ -640,7 +636,7 @@ class Installation
 
 	function mysql_ver()
 	{
-		$ver = mysql_get_client_info();
+		$ver = mysqli_get_client_info();
 		$num = explode('.', $ver);
 		return $num[0];
 	}
