@@ -1,7 +1,9 @@
 <?php define('SITE', 'Bonjour!');
 
 // the basics
-if (file_exists('../../ndxzsite/config/config.php')) require_once '../../ndxzsite/config/config.php';
+if (file_exists('../../ndxzsite/config/config.php')) {
+    require_once '../../ndxzsite/config/config.php';
+}
 require_once '../../ndxzsite/config/options.php';
 require_once '../../ndxzstudio/defaults.php';
 require_once '../../ndxzstudio/common.php';
@@ -30,17 +32,13 @@ $class = str_replace('jxs_', '', $function);
 load_plugin($function);
 
 // what about class?
-if (class_exists($function)) 
-{
+if (class_exists($function)) {
     $classy = new $function();
-	$output = $classy->output();
-}
-else
-{
-	if (function_exists($function))
-	{
-		$output = $function();
-	}
+    $output = $classy->output();
+} else {
+    if (function_exists($function)) {
+        $output = $function();
+    }
 }
 
 // backup - we'll remove this in the future

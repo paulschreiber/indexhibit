@@ -1,4 +1,6 @@
-<?php if (!defined('SITE')) exit('No direct script access allowed');
+<?php if (!defined('SITE')) {
+    exit('No direct script access allowed');
+}
 
 /*
 Format Name: No Show
@@ -15,18 +17,18 @@ Source: exhibit
 * No Show - no images
 *
 * Exhbition format
-* 
+*
 * @version 2.0
-* @author Vaska 
+* @author Vaska
 */
 
 class Exhibit
 {
-	function createExhibit()
-	{
-		$OBJ =& get_instance();
-	
-		$OBJ->page->exhibit['exhibit'] = $OBJ->vars->exhibit['content'];
-		return $OBJ->page->exhibit['exhibit'];
-	}
+    function createExhibit()
+    {
+        $OBJ =& get_instance();
+    
+        $OBJ->page->exhibit['exhibit'] = $OBJ->vars->exhibit['content'];
+        return $OBJ->page->exhibit['exhibit'];
+    }
 }

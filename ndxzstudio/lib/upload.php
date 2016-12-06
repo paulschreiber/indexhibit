@@ -14,11 +14,12 @@ class Upload
 {
     protected $options;
     
-    function __construct($options=null) {
+    function __construct($options = null)
+    {
         $this->options = array(
             'script_url' => $_SERVER['PHP_SELF'],
-		    'upload_dir' => DIRNAME . '/files/gimgs/',
-		    'upload_url' => '/files/gimgs/',
+            'upload_dir' => DIRNAME . '/files/gimgs/',
+            'upload_url' => '/files/gimgs/',
             'param_name' => 'files',
             // Set the following option to 'POST', if your server does not support
             // DELETE requests. This is a parameter sent to the client:
@@ -46,7 +47,7 @@ class Upload
                     'jpeg_quality' => 95
                 ),
                 */
-				/*
+                /*
                 'thumbnail' => array(
                     'upload_dir' => dirname($_SERVER['SCRIPT_FILENAME']).'/thumbnails/',
                     'upload_url' => $this->getFullUrl().'/thumbnails/',
@@ -60,20 +61,22 @@ class Upload
             $this->options = array_replace_recursive($this->options, $options);
         }
     }
-	
-	// new
-    protected function getFullUrl() {
-      	return
-    		(isset($_SERVER['HTTPS']) ? 'https://' : 'http://').
-    		(isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'].'@' : '').
-    		(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ($_SERVER['SERVER_NAME'].
-    		(isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] === 443 ||
-    		$_SERVER['SERVER_PORT'] === 80 ? '' : ':'.$_SERVER['SERVER_PORT']))).
-    		substr($_SERVER['SCRIPT_NAME'],0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
+    
+    // new
+    protected function getFullUrl()
+    {
+        return
+            (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').
+            (isset($_SERVER['REMOTE_USER']) ? $_SERVER['REMOTE_USER'].'@' : '').
+            (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : ($_SERVER['SERVER_NAME'].
+            (isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] === 443 ||
+            $_SERVER['SERVER_PORT'] === 80 ? '' : ':'.$_SERVER['SERVER_PORT']))).
+            substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
     }
     
-	// new
-    protected function set_file_delete_url($file) {
+    // new
+    protected function set_file_delete_url($file)
+    {
         $file->delete_url = $this->options['script_url']
             .'?file='.rawurlencode($file->name);
         $file->delete_type = $this->options['delete_type'];
@@ -82,14 +85,15 @@ class Upload
         }
     }
     
-    protected function get_file_object($file_name) {
+    protected function get_file_object($file_name)
+    {
         $file_path = $this->options['upload_dir'].$file_name;
         if (is_file($file_path) && $file_name[0] !== '.') {
             $file = new stdClass();
             $file->name = $file_name;
             $file->size = filesize($file_path);
             $file->url = $this->options['upload_url'].rawurlencode($file->name);
-            foreach($this->options['image_versions'] as $version => $options) {
+            foreach ($this->options['image_versions'] as $version => $options) {
                 if (is_file($options['upload_dir'].$file_name)) {
                     $file->{$version.'_url'} = $options['upload_url']
                         .rawurlencode($file->name);
@@ -101,14 +105,16 @@ class Upload
         return null;
     }
     
-    protected function get_file_objects() {
+    protected function get_file_objects()
+    {
         return array_values(array_filter(array_map(
             array($this, 'get_file_object'),
             scandir($this->options['upload_dir'])
         )));
     }
 
-    protected function create_scaled_image($file_name, $options) {
+    protected function create_scaled_image($file_name, $options)
+    {
         $file_path = $this->options['upload_dir'].$file_name;
         $new_file_path = $options['upload_dir'].$file_name;
         list($img_width, $img_height) = @getimagesize($file_path);
@@ -171,7 +177,8 @@ class Upload
         return $success;
     }
     
-    protected function has_error($uploaded_file, $file, $error) {
+    protected function has_error($uploaded_file, $file, $error)
+    {
         if ($error) {
             return $error;
         }
@@ -201,15 +208,17 @@ class Upload
         return $error;
     }
 
-	// new
-    protected function upcount_name_callback($matches) {
+    // new
+    protected function upcount_name_callback($matches)
+    {
         $index = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
         $ext = isset($matches[2]) ? $matches[2] : '';
         return ' ('.$index.')'.$ext;
     }
 
-	// new
-    protected function upcount_name($name) {
+    // new
+    protected function upcount_name($name)
+    {
         return preg_replace_callback(
             '/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/',
             array($this, 'upcount_name_callback'),
@@ -218,8 +227,9 @@ class Upload
         );
     }
     
-	// new
-    protected function trim_file_name($name, $type) {
+    // new
+    protected function trim_file_name($name, $type)
+    {
         // Remove path information and dots around the filename, to prevent uploading
         // into different directories or replacing hidden system files.
         // Also remove control characters and spaces (\x00..\x20) around the filename:
@@ -229,9 +239,9 @@ class Upload
             preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
             $file_name .= '.'.$matches[1];
         }
-		// we aren't using this feature for indexhibit
-		// as it has its own name checking setup
-		/*
+        // we aren't using this feature for indexhibit
+        // as it has its own name checking setup
+        /*
         if ($this->options['discard_aborted_uploads']) {
             while(is_file($this->options['upload_dir'].$file_name)) {
                 $file_name = $this->upcount_name($file_name);
@@ -241,43 +251,44 @@ class Upload
         return $file_name;
     }
 
-	// new
-    protected function orient_image($file_path) {
-      	$exif = @exif_read_data($file_path);
+    // new
+    protected function orient_image($file_path)
+    {
+        $exif = @exif_read_data($file_path);
         if ($exif === false) {
             return false;
         }
-      	$orientation = intval(@$exif['Orientation']);
-      	if (!in_array($orientation, array(3, 6, 8))) { 
-      	    return false;
-      	}
-      	$image = @imagecreatefromjpeg($file_path);
-      	switch ($orientation) {
-        	  case 3:
-          	    $image = @imagerotate($image, 180, 0);
-          	    break;
-        	  case 6:
-          	    $image = @imagerotate($image, 270, 0);
-          	    break;
-        	  case 8:
-          	    $image = @imagerotate($image, 90, 0);
-          	    break;
-          	default:
-          	    return false;
-      	}
-      	$success = imagejpeg($image, $file_path);
-      	// Free up memory (imagedestroy does not delete files):
-      	@imagedestroy($image);
-      	return $success;
+        $orientation = intval(@$exif['Orientation']);
+        if (!in_array($orientation, array(3, 6, 8))) {
+            return false;
+        }
+        $image = @imagecreatefromjpeg($file_path);
+        switch ($orientation) {
+            case 3:
+                $image = @imagerotate($image, 180, 0);
+                break;
+            case 6:
+                $image = @imagerotate($image, 270, 0);
+                break;
+            case 8:
+                $image = @imagerotate($image, 90, 0);
+                break;
+            default:
+                return false;
+        }
+        $success = imagejpeg($image, $file_path);
+        // Free up memory (imagedestroy does not delete files):
+        @imagedestroy($image);
+        return $success;
     }
     
-    protected function handle_file_upload($uploaded_file, $name, $size, $type, $error) 
-	{
-		$OBJ =& get_instance();
-		global $go, $default;
-		
-		// load our thumbnail generator
-		$OBJ->lib_class('uploadhelper');
+    protected function handle_file_upload($uploaded_file, $name, $size, $type, $error)
+    {
+        $OBJ =& get_instance();
+        global $go, $default;
+        
+        // load our thumbnail generator
+        $OBJ->lib_class('uploadhelper');
 
         $file = new stdClass();
         $file->name = $this->trim_file_name($name, $type);
@@ -286,11 +297,11 @@ class Upload
         $error = $this->has_error($uploaded_file, $file, $error);
         if (!$error && $file->name) {
             //$file_path = $this->options['upload_dir'].$file->name;
-			// get 'mime' - the easy way
-			$mime = explode('.', $file->name);
-			$mimed = strtolower(array_pop($mime));
-            $file_path = (in_array($mimed, $default['images'])) ? $this->options['upload_dir'] . $file->name : 
-				str_replace('/gimgs', '', $this->options['upload_dir'] . $file->name);
+            // get 'mime' - the easy way
+            $mime = explode('.', $file->name);
+            $mimed = strtolower(array_pop($mime));
+            $file_path = (in_array($mimed, $default['images'])) ? $this->options['upload_dir'] . $file->name :
+                str_replace('/gimgs', '', $this->options['upload_dir'] . $file->name);
             $append_file = !$this->options['discard_aborted_uploads'] &&
                 is_file($file_path) && $file->size > filesize($file_path);
             clearstatcache();
@@ -303,26 +314,25 @@ class Upload
                         FILE_APPEND
                     );
                 } else {
-					// we have a few cases here
-					$case = (isset($_GET['x'])) ? $_GET['x'] : '';
+                    // we have a few cases here
+                    $case = (isset($_GET['x'])) ? $_GET['x'] : '';
 
-					switch($case)
-					{
-						case 'coverart' :
-							$file->name = $OBJ->uploadhelper->uploading($file->name, $file->size, $uploaded_file, true);
-							$file_path = $this->options['upload_dir'] . $file->name;
-							break;
-						case 'background' :
-							$file->name = $OBJ->uploadhelper->background($file->name, $file->size, $uploaded_file);
-							$file_path = str_replace('/gimgs', '', $this->options['upload_dir'] . $file->name);
-							break;
-						default : // standard files upload
-							$file->name = $OBJ->uploadhelper->uploading($file->name, $file->size, $uploaded_file);
-							$file_path = (in_array($mimed, $default['images'])) ? 
-								$this->options['upload_dir'] . $file->name : 
-								str_replace('/gimgs', '', $this->options['upload_dir'] . $file->name);
-							break;
-					}
+                    switch ($case) {
+                        case 'coverart':
+                            $file->name = $OBJ->uploadhelper->uploading($file->name, $file->size, $uploaded_file, true);
+                            $file_path = $this->options['upload_dir'] . $file->name;
+                            break;
+                        case 'background':
+                            $file->name = $OBJ->uploadhelper->background($file->name, $file->size, $uploaded_file);
+                            $file_path = str_replace('/gimgs', '', $this->options['upload_dir'] . $file->name);
+                            break;
+                        default: // standard files upload
+                            $file->name = $OBJ->uploadhelper->uploading($file->name, $file->size, $uploaded_file);
+                            $file_path = (in_array($mimed, $default['images'])) ?
+                                $this->options['upload_dir'] . $file->name :
+                                str_replace('/gimgs', '', $this->options['upload_dir'] . $file->name);
+                            break;
+                    }
                     //move_uploaded_file($uploaded_file, $file_path);
                 }
             } else {
@@ -336,11 +346,11 @@ class Upload
 
             $file_size = filesize($file_path);
             if ($file_size === $file->size) {
-            	if ($this->options['orient_image']) {
-            		$this->orient_image($file_path);
-            	}
+                if ($this->options['orient_image']) {
+                    $this->orient_image($file_path);
+                }
                 $file->url = $this->options['upload_url'].rawurlencode($file->name);
-				/*
+                /*
                 foreach($this->options['image_versions'] as $version => $options) {
                     if ($this->create_scaled_image($file->name, $options)) {
                         if ($this->options['upload_dir'] !== $options['upload_dir']) {
@@ -353,7 +363,7 @@ class Upload
                     }
                 }
 				*/
-            } else if ($this->options['discard_aborted_uploads']) {
+            } elseif ($this->options['discard_aborted_uploads']) {
                 unlink($file_path);
                 $file->error = 'abort';
             }
@@ -365,7 +375,8 @@ class Upload
         return $file;
     }
     
-    public function get() {
+    public function get()
+    {
         $file_name = isset($_REQUEST['file']) ?
             basename(stripslashes($_REQUEST['file'])) : null;
         if ($file_name) {
@@ -377,7 +388,8 @@ class Upload
         echo json_encode($info);
     }
     
-    public function post() {
+    public function post()
+    {
         if (isset($_REQUEST['_method']) && $_REQUEST['_method'] === 'DELETE') {
             return $this->delete();
         }
@@ -433,13 +445,14 @@ class Upload
         echo $json;
     }
     
-    public function delete() {
+    public function delete()
+    {
         $file_name = isset($_REQUEST['file']) ?
             basename(stripslashes($_REQUEST['file'])) : null;
         $file_path = $this->options['upload_dir'].$file_name;
         $success = is_file($file_path) && $file_name[0] !== '.' && unlink($file_path);
         if ($success) {
-            foreach($this->options['image_versions'] as $version => $options) {
+            foreach ($this->options['image_versions'] as $version => $options) {
                 $file = $options['upload_dir'].$file_name;
                 if (is_file($file)) {
                     unlink($file);

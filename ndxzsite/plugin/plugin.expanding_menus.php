@@ -15,14 +15,14 @@ End
 
 class expanding_menus
 {
-	function go()
-	{
-		$OBJ =& get_instance();
-		
-		// do we need to do a file check for this?
-		$OBJ->page->add_jquery('jquery.ndxz_expander.js', 25);	
-		$OBJ->page->add_jquery_onready("$('ul.section').ndxzExpander();", 8);
-		
-		return null;
-	}
+    function go()
+    {
+        $OBJ =& get_instance();
+        
+        // do we need to do a file check for this?
+        $OBJ->page->add_jquery('jquery.ndxz_expander.js', 25);
+        $OBJ->page->add_jquery_onready("$('ul.section').ndxzExpander();", 8);
+        
+        return null;
+    }
 }
