@@ -22,7 +22,7 @@ class Installation
 	var $charset = 'utf8';
 	var $collate = 'utf8_unicode_ci';
 
-	public function Installation()
+	public function __construct()
 	{
 		require_once '../ndxzsite/config/options.php';
 		require_once 'defaults.php';
