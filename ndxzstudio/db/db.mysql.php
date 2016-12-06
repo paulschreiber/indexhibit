@@ -9,9 +9,9 @@
 
 class Db
 {
-	public $theQuery;
-	public $link;
-	
+	var $theQuery;
+	var $link;
+
 
 	/**
 	* Construct
