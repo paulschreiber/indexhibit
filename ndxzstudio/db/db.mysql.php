@@ -84,7 +84,8 @@ class Db
 	{
 		if ($rs = $this->query($query))
 		{
-			$num = (mysqli_num_rows($rs) != 0) ? mysql_result($rs,0) : '';
+			$count = mysqli_num_rows($rs);
+			$num = ($count != 0) ? $count : '';
 			mysqli_free_result($rs);
 			return $num;
 		}
