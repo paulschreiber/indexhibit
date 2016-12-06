@@ -56,7 +56,7 @@ class Statistics
 		$stat['url']		= parse_url($stat['ref']);
 		
 		//$stat['domain']		= (isset($stat['url']['host'])) ?
-		//	eregi_replace("^www.", "", $stat['url']['host']) :
+		//	preg_replace("/^www./i", "", $stat['url']['host']) :
 		//	'';
 		//$stat['agent']		= $_SERVER['HTTP_USER_AGENT'];
 		//$stat['browser']	= $this->stat_getAgent($stat['agent']);
@@ -151,7 +151,7 @@ class Statistics
 	
 		foreach ($platforms as $key => $test) 
 		{		
-			if (eregi($test, $ua)) $browser['platform'] = $key;
+			if (preg_match("/$test/i", $ua)) $browser['platform'] = $key;
 		}
 	
 		// this should probably be updated...
@@ -172,7 +172,7 @@ class Statistics
 	
 		foreach ($browsers as $test) {
 		
-			if (eregi($test[1], $ua)) 
+			if (preg_match('/' . $test[1] . '/i', $ua)) 
 			{
 				$browser['browser'] = $test[0];
 			}
@@ -220,8 +220,13 @@ class Statistics
 	
 			if ($rs) 
 			{
-				$c = trim(ucwords(preg_replace("/([A-Z\xC0-\xDF])/e",
-					"chr(ord('\\1')+32)", $rs['country_name'])));
+				$txt = preg_replace_callback(
+					"/([A-Z\xC0-\xDF])/", function($matches) {
+						chr(ord($matches[1])+32);
+					},
+					$rs['country_name']
+				);
+				$c = trim(ucwords($txt));
 				
 				$clean['hit_country'] = $c;
 			}
