@@ -216,7 +216,7 @@ class Db
 				(" . implode(', ', $fields) . ")
 				VALUES
 				(" . implode(', ', $values) . ")";
-				
+
 			if ($debug == true) { echo $query; exit; }
 
 			return $this->insertRecord($query);
@@ -246,7 +246,7 @@ class Db
 			$query = "UPDATE $table SET
 				" . implode(', ', $updates) . "
 				WHERE $id";
-				
+
 			if ($debug == true) { echo $query; exit; }
 
 			return $this->updateRecord($query);
@@ -300,8 +300,8 @@ class Db
 	* @param string $str
 	* @return string
 	*/
-	public function escape_str($str)	
-	{	
+	public function escape_str($str)
+	{
 		if (function_exists('get_magic_quotes_gpc'))
 		{
 			if (get_magic_quotes_gpc()) $str = stripslashes($str);
