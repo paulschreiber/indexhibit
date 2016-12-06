@@ -38,7 +38,7 @@ class Db
 
 		if (!$indx['host']) $this->db_out_of_order();
 
-		$this->link = @mysqli_connect($indx['host'], $indx['user'], $indx['pass']);
+		$this->link = mysqli_connect($indx['host'], $indx['user'], $indx['pass']);
 
 		if (!$this->link) $this->db_out_of_order();
 

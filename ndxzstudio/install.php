@@ -10,7 +10,7 @@
 // annoying date setting thing
 if (function_exists("date_default_timezone_set") && function_exists("date_default_timezone_get"))
 {
-	@date_default_timezone_set(@date_default_timezone_get());
+	date_default_timezone_set(date_default_timezone_get());
 }
 
 class Installation
@@ -835,8 +835,8 @@ define('PX', '$c[n_appnd]');";
 			if (@mysql_select_db($c['n_name'], $link) && ($this->writeConfig() == TRUE))
 			{	
 				// prevents installing over itself
-				$result = @mysql_query("SELECT * FROM ".PX."settings WHERE adm_id = 1");
 		
+				$result = mysqli_query($link, "SELECT * FROM ".PX."settings WHERE adm_id = 1");
 				if ($result)
 				{
 					setcookie('ndxz_hash', '5f8bfb51cc5c437a603abe3766d004d8', time()+3600*24*2, '/');
@@ -850,8 +850,8 @@ define('PX', '$c[n_appnd]');";
 					$this->install_db();
 			
 					// let's check
-					$result = @mysql_query("SELECT * FROM ".PX."settings WHERE adm_id = 1");
 			
+					$result = mysqli_query($link, "SELECT * FROM ".PX."settings WHERE adm_id = 1");
 					if ($result)
 					{
 						setcookie('ndxz_hash', '5f8bfb51cc5c437a603abe3766d004d8', time()+3600*24*2, '/');
