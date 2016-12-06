@@ -23,7 +23,7 @@ class upgrade_201
 	{
 		$OBJ =& get_instance();
 		
-		$version = preg_replace('/[^0-9.].*/', '', mysql_get_server_info($OBJ->db->link));
+		$version = preg_replace('/[^0-9.].*/', '', mysqli_get_server_info($OBJ->db->link));
 		
 		if (version_compare($version, '4.1', '>='))
 		{
