@@ -16,17 +16,6 @@ class Editor
 	public $advanced = false;
 	public $canvas = 0;
 	
-	/**
-	* Editor
-	*
-	* @param void
-	* @return array
-	*/
-	public function Editor()
-	{
-
-	}
-	
 	public function output()
 	{
 		$this->editor_button();

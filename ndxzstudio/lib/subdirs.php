@@ -19,11 +19,6 @@ class Subdirs
 	public $singleSub = array();
 	public $id;
 	
-	public function Subdirs()
-	{
-
-	}
-	
 	public function get_section_info()
 	{
 		$OBJ =& get_instance();

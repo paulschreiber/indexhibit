@@ -17,18 +17,6 @@ class Hook
 	public $plugins_header = array();
 	public $registered_hook = array();
 	
-	/**
-	* Returns loaded database object or error
-	*
-	* @param void
-	* @return array
-	*/
-	public function Hook()
-	{
-		
-	}
-	
-	
 	public function register_hook($hook)
 	{
 		$this->registered_hook[$hook] = true;

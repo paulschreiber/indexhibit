@@ -14,12 +14,6 @@ Objects: exhibits
 
 class Exhibit
 {
-	function Exhibit()
-	{
-
-	}
-	
-	
 	function createExhibit()
 	{
 		$OBJ =& get_instance();
