@@ -38,11 +38,11 @@ class Db
 		
 		if (!$indx['host']) $this->db_out_of_order();
 	
-		$this->link = @mysql_connect($indx['host'], $indx['user'], $indx['pass']);
 			
+		$this->link = @mysqli_connect($indx['host'], $indx['user'], $indx['pass']);
 		if (!$this->link) $this->db_out_of_order();
 
-		mysql_select_db($indx['db']);
+		mysqli_select_db($this->link, $indx['db']);
 		register_shutdown_function(array(&$this, 'close'));
 	}
 
@@ -57,7 +57,7 @@ class Db
 	{
 		$this->theQuery = $query;
 		if (!$this->theQuery) return false;	
-		return mysql_query($this->theQuery, $this->link);
+		return mysqli_query($this->link, $this->theQuery);
 	}
 		
 
@@ -84,8 +84,8 @@ class Db
 	{
 		if ($rs = $this->query($query)) 
 		{
-			$num = (mysql_num_rows($rs) != 0) ? mysql_result($rs,0) : '';
-			mysql_free_result($rs);
+			$num = (mysqli_num_rows($rs) != 0) ? mysql_result($rs,0) : '';
+			mysqli_free_result($rs);
 			return $num;
 		}
 		
@@ -104,9 +104,9 @@ class Db
 		$rs = $this->query($query);
 		
 		if ($rs) {
-			if (mysql_num_rows($rs) > 0) 
+			if (mysqli_num_rows($rs) > 0)
 			{
-				while ($arr = mysql_fetch_assoc($rs)) $out[] = $arr;
+				while ($arr = mysqli_fetch_assoc($rs)) $out[] = $arr;
 				return $out;
 			}
 		}
@@ -128,9 +128,9 @@ class Db
 		$rs = $this->query($query);
 		
 		if ($rs) {
-			if (mysql_num_rows($rs) > 0) 
+			if (mysqli_num_rows($rs) > 0)
 			{
-				$arr = mysql_fetch_assoc($rs);			
+				$arr = mysqli_fetch_assoc($rs);
 				return $arr;
 			}
 		}
@@ -149,7 +149,7 @@ class Db
 	{
 		if ($rs = $this->query($query))
 		{
-			$lastid = mysql_insert_id($this->link);
+			$lastid = mysqli_insert_id($this->link);
 			if ($lastid) return $lastid;
 		}
 		
@@ -306,13 +306,9 @@ class Db
 			if (get_magic_quotes_gpc()) $str = stripslashes($str);
 		}
 
-		if (function_exists('mysql_real_escape_string'))
+		if (function_exists('mysqli_real_escape_string'))
 		{
-			return mysql_real_escape_string($str, $this->link);
-		}
-		elseif (function_exists('mysql_escape_string'))
-		{
-			return mysql_escape_string($str);
+			return mysqli_real_escape_string($str, $this->link);
 		}
 		else
 		{
@@ -363,7 +359,7 @@ class Db
 	*/
 	public function close()
 	{
-		mysql_close($this->link);
+		mysqli_close($this->link);
 	}
 
 
