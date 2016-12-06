@@ -25,12 +25,12 @@ class Installation
 		// the basic things
 		$this->mysql_ver();
 	}
-	
+
 	public function test()
 	{
 		$this->output = 'Yes!';
 	}
-	
+
 	// common parts
 	public function load_common()
 	{
@@ -47,7 +47,7 @@ class Installation
 		if (isset($_POST['submitLang']) && ($_POST['user_lang'] != ''))
 		{
 			setcookie('install', $_POST['user_lang'], time()+3600);
-			
+
 			// couldn't i simply make a template and send the info?
 			header("location:install.php?page=1");
 		}
@@ -58,29 +58,29 @@ class Installation
 		$lang = new Lang;
 		$lang->setlang($picked);
 	}
-	
+
 	public function new_installation()
 	{
 		// read the contents of 'new_install.php'
 	}
-	
+
 	public function php_version()
 	{
-		
+
 	}
-	
+
 	public function mysql_ver()
 	{
 		$ver = mysqli_get_client_info();
 		$num = explode('.', $ver);
 		$this->mysql_version = $num[0];
 	}
-	
+
 	public function upgrade()
 	{
 		echo 'what?'; exit;
 	}
-	
+
 	public function template()
 	{
 		return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"

@@ -2,7 +2,7 @@
 
 /**
 * Installation
-* 
+*
 * @version 2.1
 * @author Vaska
 */
@@ -31,14 +31,14 @@ class Installation
 		require_once './helper/html.php';
 		require_once './helper/time.php';
 		require_once './lang/index.php';
-		
+
 		// look for the cookie here
 		$picked = (isset($_COOKIE['install'])) ? $_COOKIE['install'] : 'en-us';
 
 		$this->lang = new Lang;
 		$this->lang->setlang($picked);
-		
-		switch( $this->get_page() ) 
+
+		switch( $this->get_page() )
 		{
 			case 0:
 				$this->page_zero();
@@ -55,13 +55,13 @@ class Installation
 			case 3:
 				$this->page_three();
 			break;
-			
+
 			case 4:
 				$this->page_four();
 			break;
 		}
 	}
-	
+
 	function page_zero()
 	{
 		// set cookie
@@ -71,7 +71,7 @@ class Installation
 			header("location:install.php?p=1");
 			exit;
 		}
-		
+
 		// PHP version check here
 		if (version_compare(PHP_VERSION, '5.0.0', '>='))
 		{
@@ -91,7 +91,7 @@ class Installation
 			$this->html = "<p>" . $this->lang->word('you need php 5 or greater') . "<p>\n";
 		}
 	}
-	
+
 	function page_one()
 	{
 		$flagB = false;
@@ -108,7 +108,7 @@ class Installation
 		{
 			$this->html .= "<p><span class='ok-not'>XX</span> " . $this->lang->word('files not ok') . "</p>";
 		}
-		
+
 		if ((is_dir(DIRNAME . '/files/gimgs')) && (is_writable(DIRNAME . '/files/gimgs')))
 		{
 			$flagC = true;
@@ -118,7 +118,7 @@ class Installation
 		{
 			$this->html .= "<p><span class='ok-not'>XX</span> " . $this->lang->word('filesgimgs not ok') . "</p>";
 		}
-		
+
 		if ((is_dir(DIRNAME . '/files/dimgs')) && (is_writable(DIRNAME . '/files/dimgs')))
 		{
 			$flagE = true;
@@ -128,7 +128,7 @@ class Installation
 		{
 			$this->html .= "<p><span class='ok-not'>XX</span> " . $this->lang->word('filesdimgs not ok') . "</p>";
 		}
-		
+
 		if ((is_dir(DIRNAME . '/ndxzsite/config')) && (is_writable(DIRNAME . '/ndxzsite/config')))
 		{
 			$flagD = true;
@@ -138,7 +138,7 @@ class Installation
 		{
 			$this->html .= "<p><span class='ok-not'>XX</span> " . $this->lang->word('config not ok') . "</p>";
 		}
-		
+
 		if (($flagB == true) && ($flagC == true) && ($flagD == true) && ($flagE == true))
 		{
 			$this->html .= "<br /><p><strong>" . $this->lang->word('try db setup now') . "</strong></p>";
@@ -151,7 +151,7 @@ class Installation
 			$this->html .= "<p><small>" . $this->lang->word('goto forum') . "</small></p><br />";
 		}
 	}
-	
+
 	function page_two()
 	{
 		$s = '';
@@ -160,7 +160,7 @@ class Installation
 		{
 			$s = $this->do_installation();
 		}
-		
+
 		// if the previous installation can be found...
 		if (file_exists(DIRNAME . '/ndxz-studio/config/config.php'))
 		{
@@ -171,45 +171,45 @@ class Installation
 		{
 			$this->html = "<div id='log-form'>\n";
 			$this->html .= "<form name='iform' method='post'>\n";
-		
+
 			// build the form here
 			$this->html .= "<label>" . $this->lang->word('site name') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_site' value='".$this->showPosted('n_site')."' maxlength='35' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('user name') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_fname' value='".$this->showPosted('n_fname')."' maxlength='35' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('user last name') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_lname' value='".$this->showPosted('n_lname')."' maxlength='35' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('user email address') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_email' value='".$this->showPosted('n_email')."' maxlength='100' />\n";
-		
+
 			$this->html .= "<div style='width: 250px; margin: 24px 0 12px 0;'><hr /></div>";
-		
+
 			$this->html .= "<label>" . $this->lang->word('database server') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_host' value='".$this->showPosted('n_host')."' maxlength='50' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('database name') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_name' value='".$this->showPosted('n_name')."' maxlength='50' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('database username') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_user' value='".$this->showPosted('n_user')."' maxlength='35' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('database password') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_pwd' value='".$this->showPosted('n_pwd')."' maxlength='35' />\n";
-		
+
 			$this->html .= "<label>" . $this->lang->word('database append') . "</label><br />\n";
 			$this->html .= "<input type='text' name='n_appnd' value='ndxzbt_' maxlength='10' />\n";
-		
+
 			$this->html .= "<input type='submit' name='n_submit' value='" . $this->lang->word('submit') . "' maxlength='50' /><br />\n";
-		
+
 			$this->html .= "</form>\n";
 			$this->html .= $s;
 			$this->html .= "</div>\n";
 		}
 	}
-	
+
 	function page_three()
 	{
 		// try to connect & install
@@ -222,9 +222,9 @@ class Installation
 		if (file_exists(DIRNAME . '/ndxz-studio/config/config.php'))
 		{
 			$this->html = "<p>Do you want to import the data from your previous website?</p>";
-		
+
 			$this->html .= "<p><input type='submit' name='upgrade' value='" . $this->lang->word('import') . "' /></p>\n";
-			
+
 			$this->html .= "<p>Otherwise, you can <a href='" . BASEURL . BASENAME . "/?a=system&q=preferences&flag=true'>login</a> now.</p>";
 		}
 		else
@@ -245,7 +245,7 @@ class Installation
 			}
 		}
 	}
-	
+
 	function page_four()
 	{
 		if (isset($_GET['s']))
@@ -263,42 +263,42 @@ class Installation
 			$this->html .= "<p><small>" . $this->lang->word('goto forum') . "</small></p><br />";
 		}
 	}
-	
+
 	function output()
 	{
 		echo $this->html;
 	}
-	
+
 	function get_page()
 	{
 		return (isset($_GET['p'])) ? (int) $_GET['p'] : 0;
 	}
-	
-	
+
+
 	function set_charset_collation()
 	{
-		
 		$version = preg_replace('/[^0-9.].*/', '', mysqli_get_server_info($this->db->link));
+
 		if (version_compare($version, '4.1', '>='))
 		{
 			$this->charset_collate = 'DEFAULT CHARACTER SET ' . $this->charset;
 			$this->charset_collate .= ' COLLATE ' . $this->collate;
 		}
 	}
-	
-	
+
+
 	function install_db()
 	{
 		global $c, $picked;
-		
+
 		require_once '../ndxzsite/config/config.php';
 		require_once './db/db.mysql.php';
-		
+
 		$GLOBALS['indx'] = $indx;
 		$this->db = new Db();
 
 		$isam = $this->set_charset_collation();
-		
+
 		$sql = array();
 
 		$sql[] = "CREATE TABLE IF NOT EXISTS iptocountry (
@@ -555,12 +555,12 @@ class Installation
 		  UNIQUE KEY userid (userid),
 		  KEY ID (ID)
 		) $isam ;";
-	
+
 		$sql[] = "INSERT INTO `".PX."objects` (`id`, `object`, `obj_ref_id`, `title`, `content`, `home`, `link`, `target`, `iframe`, `new`, `tags`, `header`, `udate`, `pdate`, `creator`, `status`, `process`, `page_cache`, `section_id`, `section_top`, `url`, `ord`, `color`, `bgimg`, `hidden`, `current`, `perm`, `media_source`, `media_source_detail`, `images`, `thumbs_shape`, `thumbs`, `format`, `thumbs_format`, `operand`, `titling`, `break`, `tiling`, `year`, `report`, `pwd`, `placement`, `template`, `ling`, `ling_id`, `serial`, `extra1`, `extra2`) VALUES
 		(1, 'exhibits', 1, 'Main', '', 1, '', 0, 0, 0, '2', '', '".getNow()."', '".getNow()."', 1, 1, 1, 0, 1, 1, '/', 0, 'ffffff', '', 0, 0, 0, 0, '', 600, 0, 200, 'visual_index', 0, 2, 1, 0, 1, '2011', 0, '', 0, 'index.php', 'en', '', '', '', ''),
 		(2, 'exhibits', 2, 'Project', '', 0, '', 0, 0, 0, '0', '', '".getNow()."', '".getNow()."', 1, 1, 1, 0, 2, 1, '/project/', 0, 'ffffff', '', 0, 0, 0, 2, '', 9999, 0, 200, 'visual_index', 0, 0, 1, 0, 1, '2011', 0, '', 1, 'index.php', 'en', '', '', '', ''),
 		(3, 'exhibits', 3, 'Tags', '', 0, '', 0, 0, 0, '0', '', '".getNow()."', '".getNow()."', 1, 0, 1, 0, 3, 1, '/tag/', 0, 'ffffff', '', 0, 0, 0, 0, '', 9999, 0, 200, 'visual_index', 0, 0, 0, 0, 1, '2011', 0, '', 0, 'index.php', 'en', '', '', '', '');";
-		
+
 		$sql[] = "INSERT INTO `".PX."objects_prefs` (`obj_id`, `obj_ref_type`, `obj_active`, `obj_title`, `obj_section`, `obj_template`, `obj_members`, `obj_img`, `obj_settings`, `obj_group`) VALUES
 		(1, 'exhibits', 1, '', 1, '', '', '', '', ''),
 		(2, 'xml', 1, '', 1, '', '', '', '', ''),
@@ -570,24 +570,24 @@ class Installation
 		(1, 'root', 'exhibits', 2, 1, 0, '', '2006-12-20 17:01:31', '/', 'Main', 0, 0, 0),
 		(2, 'project', 'exhibits', 1, 1, 0, '', '2010-03-03 23:48:44', '/project', 'Projects', 0, 0, 0),
 		(3, 'tag', 'exhibits', 3, 1, 1, '', '2010-03-04 05:51:22', '/tag', 'Tags', 3, 0, 0);";
-		
+
 		// we need to deal with the inputs here better
 		$sql[] = "INSERT INTO `".PX."settings` (`adm_id`, `site_name`, `installdate`, `version`, `curr_time`, `site_lang`, `time_format`, `tagging`, `help`, `hibernate`, `obj_name`, `obj_theme`, `obj_itop`, `obj_ibot`, `obj_org`, `obj_apikey`, `site_format`, `site_offset`, `site_vars`) VALUES
 		(1, ".$this->db->escape($c['n_site']).", '".getNow()."', '" . VERSION . "', 1, 'en-us', '%d %B %Y', 1, 0, '', ".$this->db->escape($c['n_site']).", 'default', \"<h1><a href='/' title='{{obj_name}}'>{{obj_name}}</a></h1>\", \"<p>Copyright 2007-2012<br />\n<a href='http:\/\/www\.indexhibit\.org\/'>Built with Indexhibit</a></p>\", 2, 'asdfsafasfadsfdfs', '%d %B %Y', 0, 'a:3:{s:9:\"passwords\";s:1:\"1\";s:9:\"templates\";s:1:\"0\";s:4:\"tags\";s:1:\"1\";}');";
-		
+
 		// user cookie saved language selection
 		$the_lang = (isset($_COOKIE['user_lang'])) ? $_COOKIE['user_lang'] : 'en-us';
 
 		$sql[] = "INSERT INTO `".PX."users` (`ID`, `userid`, `password`, `email`, `threads`, `writing`, `user_offset`, `user_format`, `user_lang`, `user_hash`, `user_help`, `user_mode`, `user_name`, `user_surname`, `user_admin`, `user_active`, `user_client`) VALUES
 		(1, 'index1', '22645ed8b5f5fa4b597d0fe61bed6a96', ".$this->db->escape($c['n_email']).", 15, 0, 0, '%d %B %Y', ".$this->db->escape($the_lang).", '5f8bfb51cc5c437a603abe3766d004d8', 0, 1, ".$this->db->escape($c['n_fname']).", ".$this->db->escape($c['n_lname']).", 1, 1, 0);";
-		
+
 		foreach ($sql as $install)
 		{
 			$this->db->query($install);
 		}
 	}
-	
-	
+
+
 	/**
 	* Returns string
 	*
@@ -595,7 +595,7 @@ class Installation
 	* @return string
 	*/
 	function escape($str)
-	{	
+	{
 		switch (gettype($str))
 		{
 			case 'string'	:	$str = "'" . $this->escape_str($str) . "'";
@@ -604,20 +604,20 @@ class Installation
 				break;
 			default			:	$str = (($str == NULL) || ($str == ''))  ? "''" : "'" . $this->escape_str($str) . "'";
 				break;
-		}		
+		}
 
 		return $str;
 	}
-	
-	
+
+
 	/**
 	* Returns string
 	*
 	* @param string $str
 	* @return string
 	*/
-	function escape_str($str)	
-	{	
+	function escape_str($str)
+	{
 		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 		{
 			$str = stripslashes($str);
@@ -640,33 +640,33 @@ class Installation
 		$num = explode('.', $ver);
 		return $num[0];
 	}
-	
+
 	function showPosted($var)
 	{
 		global $c;
-		
+
 		if ((!isset($c['n_host']) && ($var == 'n_host'))) return 'localhost';
-		
+
 		if (isset($c[$var]))
 		{
 			if ($var == 'n_host')
 			{
 				return ($c['n_host'] == 'localhost') ? 'localhost' : $c['n_host'];
 			}
-			
+
 			return $c[$var];
 		}
 	}
-	
+
 	function writeConfig()
 	{
 		global $c;
-		
+
 		if (!is_array($c)) exit;
-		
+
 		$path = DIRNAME . '/ndxzsite/config';
 		$filename = $path . '/config.php';
-		
+
 		$somecontent = "<?php  if (!defined('SITE')) exit('No direct script access allowed');
 
 \$indx['db'] 		= '$c[n_name]';
@@ -676,14 +676,14 @@ class Installation
 \$indx['sql']		= 'mysql';
 define('PX', '$c[n_appnd]');";
 
-		if (is_writable($path)) 
+		if (is_writable($path))
 		{
-			if (!$handle = fopen($filename, 'w')) 
+			if (!$handle = fopen($filename, 'w'))
 			{
 				return FALSE;
 			}
 
-			if (fwrite($handle, $somecontent) === FALSE) 
+			if (fwrite($handle, $somecontent) === FALSE)
 			{
 				return FALSE;
 			}
@@ -694,7 +694,7 @@ define('PX', '$c[n_appnd]');";
 
 		return FALSE;
 	}
-	
+
 	function getLanguage($default='', $name, $attr='')
 	{
 		global $lang;
@@ -708,10 +708,10 @@ define('PX', '$c[n_appnd]');";
 			$s .= option('', $this->lang->word('make selection'), 0, 0);
 		}
 
-		foreach ($rs as $key => $a) 
+		foreach ($rs as $key => $a)
 		{
 			$this->language = array_pop($a);
-			
+
 			// check to see if the lang folder exists
 			if (is_dir(DIRNAME . BASENAME . '/' . LANGPATH . '/' . $key))
 			{
@@ -723,8 +723,8 @@ define('PX', '$c[n_appnd]');";
 
 		return select($name, attr($attr), $s);
 	}
-	
-	
+
+
 	function get_old_prefix()
 	{
 		// let's try to get the other prefix
@@ -740,8 +740,8 @@ define('PX', '$c[n_appnd]');";
 			return false;
 		}
 	}
-	
-	
+
+
 	function new_prefix($prefix)
 	{
 		$tmp = str_replace(array('_'), array(''), $prefix);
@@ -750,8 +750,8 @@ define('PX', '$c[n_appnd]');";
 		$prefix = 'ndxzbt' . ($tmp3 + 1) . '_';
 		return $prefix;
 	}
-	
-	
+
+
 	function previous_install_connection()
 	{
 		global $lang;
@@ -760,7 +760,7 @@ define('PX', '$c[n_appnd]');";
 		if (file_exists(DIRNAME . '/ndxz-studio/config/config.php'))
 		{
 			require_once DIRNAME . '/ndxz-studio/config/config.php';
-			
+
 			$prefix = $this->get_old_prefix();
 			$prefix = ($prefix == 'false') ? 'ndxzbt_' : $this->new_prefix($prefix);
 		}
@@ -803,11 +803,11 @@ define('PX', '$c[n_appnd]');";
 		$html .= "</form>\n";
 		if (isset($s)) $html .= $s;
 		$html .= "</div>\n";
-		
+
 		return $html;
 	}
-	
-	
+
+
 	function do_installation()
 	{
 		// try to connect & install
@@ -820,23 +820,23 @@ define('PX', '$c[n_appnd]');";
 			$c['n_pwd']		= getPOST('n_pwd', '', 'connect', 32);
 			$c['n_site']	= getPOST('n_site', '', 'none', 35);
 			$c['n_appnd']	= getPOST('n_appnd', '', 'none', 10);
-		
+
 			// these need to be inserted into the database...
 			$c['n_fname']	= getPOST('n_fname', '', 'none', 35);
 			$c['n_lname']	= getPOST('n_lname', '', 'none', 35);
 			$c['n_email']	= getPOST('n_email', '', 'none', 100);
-		
+
 			$GLOBALS['c'] = $c;
-		
+
 			// check connection - tables exist?
-			$link = @mysql_connect($c['n_host'], $c['n_user'], $c['n_pwd']);
+			$link = mysqli_connect($c['n_host'], $c['n_user'], $c['n_pwd']);
 			$_GLOBALS['link'] = $link;
-	
-			if (@mysql_select_db($c['n_name'], $link) && ($this->writeConfig() == TRUE))
-			{	
+
+			if (mysqli_select_db($link, $c['n_name']) && ($this->writeConfig() == TRUE))
+			{
 				// prevents installing over itself
-		
 				$result = mysqli_query($link, "SELECT * FROM ".PX."settings WHERE adm_id = 1");
+
 				if ($result)
 				{
 					setcookie('ndxz_hash', '5f8bfb51cc5c437a603abe3766d004d8', time()+3600*24*2, '/');
@@ -848,10 +848,10 @@ define('PX', '$c[n_appnd]');";
 				{
 					// this is where we try to install
 					$this->install_db();
-			
+
 					// let's check
-			
 					$result = mysqli_query($link, "SELECT * FROM ".PX."settings WHERE adm_id = 1");
+
 					if ($result)
 					{
 						setcookie('ndxz_hash', '5f8bfb51cc5c437a603abe3766d004d8', time()+3600*24*2, '/');
@@ -878,60 +878,60 @@ define('PX', '$c[n_appnd]');";
 			$s = "<p><span class='ok-not'>XX</span> " . $this->lang->word('check config') . "</p><br />";
 			$s .= "<p><small>" . $this->lang->word('goto forum') . "</small></p><br />";
 		}
-		
+
 		return $s;
 	}
 
-	
+
 	function makeEdition()
 	{
 		$rest = 'http://api.indexhibit.org/?method=edition&url=' . urlencode(BASEURL);
 		$edition = @file_get_contents($rest);
-		
+
 		return;
 	}
-	
-	
+
+
 	function do_the_upgrade()
 	{
 		global $go, $default;
 
 		require_once '../ndxzsite/config/config.php';
 		require_once './db/db.mysql.php';
-		
+
 		$GLOBALS['indx'] = $indx;
 		$this->db = new Db();
-		
+
 		// get the old prefix
 		$old_prefix = $this->get_old_prefix();
-		
+
 		// get old settings
 		$settings = $this->db->fetchRecord("SELECT installdate, curr_time, time_format FROM {$old_prefix}settings");
-		
+
 		// also need old objects_prefs
-		$objects_prefs = $this->db->fetchRecord("SELECT obj_itop, obj_ibot, obj_name FROM {$old_prefix}objects_prefs 
+		$objects_prefs = $this->db->fetchRecord("SELECT obj_itop, obj_ibot, obj_name FROM {$old_prefix}objects_prefs
 			WHERE obj_id = '1'");
-		
+
 		// transform settings
 		$search = array('<%', '%>', '<plug:');
 		$replace = array('{{', '}}', '<plugin:');
 
 		if ($objects_prefs['obj_itop'] != '') { $settings['obj_itop'] = str_replace($search, $replace, $objects_prefs['obj_itop']); }
 		if ($objects_prefs['obj_ibot'] != '') { $settings['obj_ibot'] = str_replace($search, $replace, $objects_prefs['obj_ibot']); }
-		
+
 		$settings['obj_theme'] 	= 'default';
 		$settings['version']	= VERSION;
-		
+
 		// need to update the settings table
 		$this->db->updateArray(PX.'settings', $settings, "adm_id = '1'");
-		
+
 		// we don't need to update the user
 		// default login will be index1/exhibit again
 		// we already got their email address at install
 
 		// get old media
 		$medias = $this->db->fetchArray("SELECT * FROM {$old_prefix}media");
-		
+
 		if ($medias)
 		{
 			// we need to empty the new table before we begin
@@ -945,10 +945,10 @@ define('PX', '$c[n_appnd]');";
 				$this->db->insertArray(PX.'media', $media);
 			}
 		}
-		
+
 		// objects
 		$objects = $this->db->fetchArray("SELECT * FROM {$old_prefix}objects");
-		
+
 		if ($objects)
 		{
 			// we need to empty the new table before we begin
@@ -962,24 +962,24 @@ define('PX', '$c[n_appnd]');";
 				$this->db->insertArray(PX.'objects', $object);
 			}
 		}
-		
+
 		// remake sections
 		$this->remake_sections();
-		
+
 		header('location:' . BASEURL . BASENAME . '/install.php?p=4&s=success');
 		exit;
 	}
-	
-	
+
+
 	function remake_sections()
 	{
 		global $go, $default, $indx;
-		
+
 		// get the old prefix
 		$old_prefix = $this->get_old_prefix();
-		
+
 		$sections = $this->db->fetchArray("SELECT * FROM {$old_prefix}sections");
-		
+
 		// add to new database
 		if ($sections)
 		{
@@ -988,10 +988,10 @@ define('PX', '$c[n_appnd]');";
 
 			foreach ($sections as $section)
 			{
-				$section['sec_obj']	= 'exhibits';				
-				$this->db->insertArray(PX.'sections', $section);	
+				$section['sec_obj']	= 'exhibits';
+				$this->db->insertArray(PX.'sections', $section);
 			}
-			
+
 			// add the tag section here
 			$tag_section['section'] 	= 'tag';
 			$tag_section['sec_ord'] 	= '127';
@@ -999,19 +999,19 @@ define('PX', '$c[n_appnd]');";
 			$tag_section['sec_date'] 	= getNow();
 			$tag_section['sec_path'] 	= '/tag';
 			$tag_section['sec_desc'] 	= 'Tags';
-			
+
 			$last = $this->db->insertArray(PX.'sections', $tag_section);
 		}
-		
+
 		//include DIRNAME . '/ndxz-studio/helper/time.php';
 		include DIRNAME . '/ndxz-studio/helper/output.php';
 		include DIRNAME . '/ndxz-studio/helper/romanize.php';
 		include DIRNAME . '/ndxz-studio/lib/publish.php';
-		
+
 		$PUB = new Publish();
-		
+
 		$now = date("Y-m-d", time());
-		
+
 		foreach ($sections as $section)
 		{
 			// don't touch the main page
@@ -1024,20 +1024,20 @@ define('PX', '$c[n_appnd]');";
 				// a few more things
 				$clean['sec_date'] 	= $now;
 				//$clean['sec_ord']	= $section['sec_ord'];
-			
+
 				// we need to romanize the path based upon 'section'
 				$PUB->title = trim($section['section']);
 				$clean['section'] = $PUB->processTitle();
-			
+
 				// we need to clean up the path thing
 				$clean['sec_path'] = $PUB->urlStrip('/' . $section['section']);
-			
+
 				$final_path = $PUB->urlStrip($clean['sec_path'] . '/');
-				$final_path = ($final_path == '/root/') ? '/' : $final_path; 
-			
+				$final_path = ($final_path == '/root/') ? '/' : $final_path;
+
 				// unpublish section sections
 				$this->db->updateArray(PX.'objects', array('status' => '0'), "url = '$final_path' AND status = '1'");
-			
+
 				// need to create the actual page too
 				$page['object'] = 'exhibits';
 				$page['title'] = $section['sec_desc'];
@@ -1050,7 +1050,7 @@ define('PX', '$c[n_appnd]');";
 				$page['obj_ref_id'] = $section['secid'];
 				$page['section_id'] = $section['secid'];
 				$page['ord'] = '0';
-			
+
 				$this->db->insertArray(PX.'objects', $page);
 			}
 			else // adjust the main page
@@ -1060,7 +1060,7 @@ define('PX', '$c[n_appnd]');";
 				$page['home'] = 1;
 				$page['section_top'] = 1;
 				$page['obj_ref_id'] = 1;
-				
+
 				$this->db->updateArray(PX.'objects', $page, "id = '1'");
 			}
 		}
@@ -1077,7 +1077,7 @@ define('PX', '$c[n_appnd]');";
 		$tag['obj_ref_id'] = $last;
 		$tag['section_id'] = $last;
 		$tag['ord'] = '0';
-		
+
 		$this->db->insertArray(PX.'objects', $tag);
 	}
 }
@@ -1115,7 +1115,7 @@ code { margin: 18px 0; font-size: 12px; }
 <div id='footer' class='c2'>
 	<div class='col'><a href='<?php echo BASEURL . BASENAME ?>/license.txt'>License</a></div>
 	<div class='cl'><!-- --></div>
-</div>	
+</div>
 </div>
 </body>
 </html>
